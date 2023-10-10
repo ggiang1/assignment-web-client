@@ -41,6 +41,7 @@ class HTTPClient(object):
     def connect(self, host, port):
         print("\nCONNECTING")
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        # self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.socket.connect((host, port))
 
         # return self.socket
@@ -49,6 +50,7 @@ class HTTPClient(object):
 
     def get_code(self, data):
         print("\nget_code")
+        print(data)
         data_lines = data.split("\r\n")
    
         code = (data_lines[0].split()[1])
@@ -103,7 +105,7 @@ class HTTPClient(object):
 
     # read everything from the socket
     def recvall(self, sock):
-        print("READ THE DATA")
+        print("READING THE DATA")
         buffer = bytearray()
         done = False
         while not done:
@@ -120,17 +122,21 @@ class HTTPClient(object):
         code = 500
         body = ""
         # URL contains host, port as well as path
-
-
         print("GET METHOD", url)
         print("ARGUMENT", args)
         url_parsed = urllib.parse.urlparse(url)
 
         host = url_parsed.hostname
-        port = url_parsed.port if url_parsed.port else 80
+        port = url_parsed.port 
         path = url_parsed.path
 
+        if (url_parsed.port):
+            pass
+        else:
+            port = 80
+
         query_params = url_parsed.query
+
 
         if path == "":
             path = "/"
@@ -148,17 +154,17 @@ class HTTPClient(object):
 
         self.connect(host,port)
 
-        request = f"GET {path} HTTP/1.1\r\nHost: {host}\r\n\r\n"
+        request = f"GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n"
         
         self.sendall(request)
 
         response_data = self.recvall(self.socket) # HTTP Response Header
 
-        self.close() # Close the server
+        self.close() # Close the socket
 
         code = self.get_code(response_data)
 
-        header = self.get_headers(response_data)
+        # header = self.get_headers(response_data)
 
         body = self.get_body(response_data)
         return HTTPResponse(code, body)
@@ -182,7 +188,7 @@ class HTTPClient(object):
         
         print("ARG TEST", args)
 
-        request = f"POST {path} HTTP/1.1\r\nHost: {host}\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: {len(post_content)}\r\n\r\n" + post_content
+        request = f"POST {path} HTTP/1.1\r\nHost: {host}\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: {len(post_content)}\r\nConnection: close\r\n\r\n" + post_content
 
         # request = request + post_content
         
@@ -190,6 +196,7 @@ class HTTPClient(object):
         # print(request)
 
         self.sendall(request)
+        
         response_data = self.recvall(self.socket)
 
         self.close()
@@ -201,7 +208,7 @@ class HTTPClient(object):
         return HTTPResponse(code, body)
 
     def command(self, url, command="GET", args=None):
-        print("URL:", url, "Command:", command)
+        # print("URL:", url, "Command:", command)
         if (command == "POST"):
             print("POST REQ")
             return self.POST( url, args )
@@ -216,8 +223,8 @@ if __name__ == "__main__":
         help()
         sys.exit(1)
     elif (len(sys.argv) == 3):
-        print("TEST1: sys.argv[2] =", sys.argv[2], "sys.argv[1] =", sys.argv[1])
+        # print("TEST1: sys.argv[2] =", sys.argv[2], "sys.argv[1] =", sys.argv[1])
         print(client.command( sys.argv[2], sys.argv[1] ))
     else:
-        print("TEST2: sys.argv[1] =", sys.argv[1])
+        # print("TEST2: sys.argv[1] =", sys.argv[1])
         print(client.command( sys.argv[1] ))
