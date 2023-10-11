@@ -39,27 +39,27 @@ class HTTPClient(object):
     #def get_host_port(self,url):
 
     def connect(self, host, port):
-        print("\nCONNECTING")
+        # print("\nCONNECTING")
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         # self.socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.socket.connect((host, port))
 
         # return self.socket
-        print("\nFINISHED CONNECTING")
+        # print("\nFINISHED CONNECTING")
         return None
 
     def get_code(self, data):
-        print("\nget_code")
-        print(data)
+        # print("\nget_code")
+        # print(data)
         data_lines = data.split("\r\n")
    
         code = (data_lines[0].split()[1])
-        print("Code is:", code)
+        # print("Code is:", code)
         return int(code)
 
     def get_headers(self,data):
         # data_lines = data.split("\r\n")
-        print("\nget_headers")
+        # print("\nget_headers")
 
         # data_lines = data.split('\r\n')
         # print(data_lines)
@@ -81,7 +81,7 @@ class HTTPClient(object):
         return header
 
     def get_body(self, data):
-        print("\nget_body")
+        # print("\nget_body")
 
         # data_lines = data.split('\r\n')
         # print(data_lines)
@@ -104,7 +104,7 @@ class HTTPClient(object):
         return body
     
     def sendall(self, data):
-        print("SENT DATA")
+        # print("SENT DATA")
         self.socket.sendall(data.encode('utf-8'))
         
     def close(self):
@@ -112,7 +112,7 @@ class HTTPClient(object):
 
     # read everything from the socket
     def recvall(self, sock):
-        print("READING THE DATA")
+        # print("READING THE DATA")
         buffer = bytearray()
         done = False
         while not done:
@@ -122,15 +122,15 @@ class HTTPClient(object):
             else:
                 done = not part
         
-        print("FINISHED READING DATA")
+        # print("FINISHED READING DATA")
         return buffer.decode('utf-8')
 
     def GET(self, url, args=None):
         code = 500
         body = ""
         # URL contains host, port as well as path
-        print("GET METHOD", url)
-        print("ARGUMENT", args)
+        # print("GET METHOD", url)
+        # print("ARGUMENT", args)
         url_parsed = urllib.parse.urlparse(url)
 
         host = url_parsed.hostname
@@ -148,7 +148,7 @@ class HTTPClient(object):
         if path == "":
             path = "/"
 
-        print("HOST:", host, "PORT:", port, "PATH:", path, "QUERY PARAMS", query_params)
+        # print("HOST:", host, "PORT:", port, "PATH:", path, "QUERY PARAMS", query_params)
     
 
         # query_params = "" # Could be a potential test.
@@ -191,9 +191,9 @@ class HTTPClient(object):
         post_content = ""
         if args:
             post_content = urllib.parse.urlencode(args)
-            print("POST CONTENT:", post_content)
+            # print("POST CONTENT:", post_content)
         
-        print("ARG TEST", args)
+        # print("ARG TEST", args)
 
         request = f"POST {path} HTTP/1.1\r\nHost: {host}\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: {len(post_content)}\r\nConnection: close\r\n\r\n" + post_content
 
@@ -217,10 +217,10 @@ class HTTPClient(object):
     def command(self, url, command="GET", args=None):
         # print("URL:", url, "Command:", command)
         if (command == "POST"):
-            print("POST REQ")
+            # print("POST REQ")
             return self.POST( url, args )
         else:
-            print("GET REQ")
+            # print("GET REQ")
             return self.GET( url, args )
     
 if __name__ == "__main__":
