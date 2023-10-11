@@ -61,39 +61,46 @@ class HTTPClient(object):
         # data_lines = data.split("\r\n")
         print("\nget_headers")
 
-        data_lines = data.split('\r\n')
-        print(data_lines)
+        # data_lines = data.split('\r\n')
+        # print(data_lines)
 
-        index = data_lines.index("")
+        # index = data_lines.index("")
 
-        header_array = []
-        for i in range(0, index):
-            header_array.append(data_lines[i])
+        # header_array = []
+        # for i in range(0, index):
+        #     header_array.append(data_lines[i])
 
-        print(header_array)
-        print("Header")
-        print("\r\n".join(header_array))
-        header = "\r\n".join(header_array)
+        # print(header_array)
+        # print("Header")
+        # print("\r\n".join(header_array))
+        # header = "\r\n".join(header_array)
+
+        data_lines = data.split('\r\n\r\n')
+        header = data_lines[0]
+        # return data_lines[0]
         return header
 
     def get_body(self, data):
         print("\nget_body")
 
-        data_lines = data.split('\r\n')
-        print(data_lines)
+        # data_lines = data.split('\r\n')
+        # print(data_lines)
 
-        index = data_lines.index("")
+        # index = data_lines.index("")
 
-        body_array = []
-        for i in range(index+1, len(data_lines)):
-            body_array.append(data_lines[i])
+        # body_array = []
+        # for i in range(index+1, len(data_lines)):
+        #     body_array.append(data_lines[i])
 
-        print(body_array)
+        # print(body_array)
 
-        print("Body")
-        print("\r\n".join(body_array))
+        # print("Body")
+        # print("\r\n".join(body_array))
 
-        body = "\r\n".join(body_array)
+        # body = "\r\n".join(body_array)
+
+        data_lines = data.split('\r\n\r\n')
+        body = data_lines[1]
         return body
     
     def sendall(self, data):
