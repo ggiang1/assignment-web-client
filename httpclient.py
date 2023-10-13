@@ -163,7 +163,7 @@ class HTTPClient(object):
             # print("ARGUMENTS FOUND")
             query_params = urllib.parse.urlencode(args)
             path = path + "?" + query_params # To keep or not
-            print(path)
+            # print(path)
         elif args == None and query_params != "":
             path = path + "?" + query_params
             # print("No args")
