@@ -155,7 +155,9 @@ class HTTPClient(object):
     
 
         # query_params = "" # Could be a potential test.
+        # args = "$#&%(#&%@(#$&%(I*&$@"
         if args:
+            # print("ARGUMENTS FOUND")
             query_params = urllib.parse.urlencode(args)
             path = path + "?" + query_params
 
@@ -177,6 +179,7 @@ class HTTPClient(object):
         # header = self.get_headers(response_data)
 
         body = self.get_body(response_data)
+        # print(body + "\n")
         return HTTPResponse(code, body)
 
     def POST(self, url, args=None):
