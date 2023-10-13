@@ -164,6 +164,9 @@ class HTTPClient(object):
             query_params = urllib.parse.urlencode(args)
             path = path + "?" + query_params # To keep or not
             print(path)
+        elif args == None and query_params != "":
+            path = path + "?" + query_params
+            # print("No args")
 
         
         # print("HOST:", host, "PORT:", port, "PATH:", path, "QUERY PARAMS", query_params)
@@ -171,7 +174,7 @@ class HTTPClient(object):
         self.connect(host,port)
 
         # request = f"GET {path} HTTP/1.1\r\nHost: {host}\r\nContent-type: application/x-www-form-urlencoded\r\nContent-Length: {len(query_params)}\r\nConnection: close\r\n\r\n" + query_params
-        request = f"GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n" + query_params
+        request = f"GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n"
         
         self.sendall(request)
 
