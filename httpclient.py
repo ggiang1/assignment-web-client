@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # coding: utf-8
-# Copyright 2016 Abram Hindle, https://github.com/tywtyw2002, and https://github.com/treedust
+# Copyright 2016 Abram Hindle, Gabriel Giang, https://github.com/tywtyw2002, and https://github.com/treedust
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -144,6 +144,9 @@ class HTTPClient(object):
 
         query_params = url_parsed.query
 
+        # print(host, url)
+        if host == None:
+            host = url
 
         if path == "":
             path = "/"
@@ -179,15 +182,21 @@ class HTTPClient(object):
     def POST(self, url, args=None):
         code = 500
         body = ""
+        
 
         url_parsed = urllib.parse.urlparse(url)
 
         host = url_parsed.hostname
         port = url_parsed.port if url_parsed.port else 80
         path = url_parsed.path 
+
+        # print(host, port, path)
     
         if path == "":
             path = "/"
+
+        if host == None:
+            host = url
 
         self.connect(host,port)
 
@@ -212,8 +221,15 @@ class HTTPClient(object):
         self.close()
 
         code = self.get_code(response_data)
-        # print(self.get_headers(response_data))
         body = self.get_body(response_data)
+        
+
+        # print("HEADER \n")
+        # print(self.get_headers(response_data))
+
+        # print("BODY starts here")
+
+        # print(body + "  \n")
 
         return HTTPResponse(code, body)
 
