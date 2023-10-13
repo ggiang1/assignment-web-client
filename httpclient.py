@@ -143,6 +143,10 @@ class HTTPClient(object):
             port = 80
 
         query_params = url_parsed.query
+        
+        # print("HOST:", host, "PORT:", port, "PATH:", path, "QUERY PARAMS", query_params)
+        # print(path)
+
         # print(query_params)
         # print(urllib.parse.urlencode(query_params))
 
@@ -154,9 +158,6 @@ class HTTPClient(object):
         if path == "":
             path = "/"
 
-        # print("HOST:", host, "PORT:", port, "PATH:", path, "QUERY PARAMS", query_params)
-    
-
         # query_params = "" # Could be a potential test.
         # args = "$#&%(#&%@(#$&%(I*&$@"
         if args:
@@ -165,8 +166,9 @@ class HTTPClient(object):
             path = path + "?" + query_params # To keep or not
             # print(path)
         elif args == None and query_params != "":
-            path = path + "?" + query_params
             # print("No args")
+            path = path + "?" + query_params
+            # print(path)
 
         
         # print("HOST:", host, "PORT:", port, "PATH:", path, "QUERY PARAMS", query_params)
