@@ -195,8 +195,13 @@ class HTTPClient(object):
         url_parsed = urllib.parse.urlparse(url)
 
         host = url_parsed.hostname
-        port = url_parsed.port if url_parsed.port else 80
+        port = url_parsed.port
         path = url_parsed.path 
+
+        if (url_parsed.port):
+            pass
+        else:
+            port = 80
 
         # print(host, port, path)
     
