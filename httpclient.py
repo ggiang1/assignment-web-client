@@ -186,6 +186,9 @@ class HTTPClient(object):
         port = url_parsed.port if url_parsed.port else 80
         path = url_parsed.path 
     
+        if path == "":
+            path = "/"
+
         self.connect(host,port)
 
         post_content = ""
@@ -209,7 +212,7 @@ class HTTPClient(object):
         self.close()
 
         code = self.get_code(response_data)
-
+        # print(self.get_headers(response_data))
         body = self.get_body(response_data)
 
         return HTTPResponse(code, body)
