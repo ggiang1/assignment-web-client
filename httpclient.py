@@ -143,10 +143,13 @@ class HTTPClient(object):
             port = 80
 
         query_params = url_parsed.query
+        # print(query_params)
+        # print(urllib.parse.urlencode(query_params))
 
         # print(host, url)
-        if host == None:
-            host = url
+
+        # if host == None:
+        #     host = url
 
         if path == "":
             path = "/"
@@ -159,14 +162,16 @@ class HTTPClient(object):
         if args:
             # print("ARGUMENTS FOUND")
             query_params = urllib.parse.urlencode(args)
-            path = path + "?" + query_params
+            path = path + "?" + query_params # To keep or not
+            print(path)
 
         
         # print("HOST:", host, "PORT:", port, "PATH:", path, "QUERY PARAMS", query_params)
 
         self.connect(host,port)
 
-        request = f"GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n"
+        # request = f"GET {path} HTTP/1.1\r\nHost: {host}\r\nContent-type: application/x-www-form-urlencoded\r\nContent-Length: {len(query_params)}\r\nConnection: close\r\n\r\n" + query_params
+        request = f"GET {path} HTTP/1.1\r\nHost: {host}\r\nConnection: close\r\n\r\n" + query_params
         
         self.sendall(request)
 
@@ -198,8 +203,8 @@ class HTTPClient(object):
         if path == "":
             path = "/"
 
-        if host == None:
-            host = url
+        # if host == None:
+        #     host = url
 
         self.connect(host,port)
 
